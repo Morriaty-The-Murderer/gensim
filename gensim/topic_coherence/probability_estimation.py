@@ -83,12 +83,13 @@ def p_boolean_sliding_window(texts, segmented_topics, dictionary, window_size):
     token2id_dict = dictionary.token2id
     def add_topic_posting(top_ids, window, per_topic_postings, window_id, token2id_dict):
         for word in window:
-            word_id = token2id_dict[word]
-            if word_id in top_ids:
-                if word_id in per_topic_postings:
-                    per_topic_postings[word_id].add(window_id)
-                else:
-                    per_topic_postings[word_id] = set([window_id])
+            if word in token2id_dict:
+                word_id = token2id_dict[word]
+                if word_id in top_ids:
+                    if word_id in per_topic_postings:
+                        per_topic_postings[word_id].add(window_id)
+                    else:
+                        per_topic_postings[word_id] = set([window_id])
         window_id += 1
         return (window_id, per_topic_postings)
     # Apply boolean sliding window to each document in texts.
